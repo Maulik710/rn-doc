@@ -1,0 +1,28 @@
+ <Modal visible={IsManuShow} transparent>
+                <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', }}>
+                    <TouchableWithoutFeedback onPress={() => setIsManuShow(false)}>
+                        <View style={styles.modalOverlay} />
+                    </TouchableWithoutFeedback>
+                    <View style={{ alignSelf: 'flex-end', right: scale(20), marginTop: hp(10) }}>
+                        <View style={{ backgroundColor: '#fff', borderRadius: scale(15), width: wp(50), padding: scale(20) }}>
+                            <TouchableOpacity style={MyStyle.itemSt} onPress={() => { setIsManuShow(false) }}>
+                                <Text style={MyStyle.itemTextSt}>Add Favorite</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={MyStyle.itemSt} onPress={() => { setIsManuShow(false) }} >
+                                <Text style={MyStyle.itemTextSt}>Whatsapp</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ padding: scale(10), alignItems: 'center' }} onPress={() => { setIsManuShow(false) }} >
+                                <Text style={MyStyle.itemTextSt}>Mail</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+            
+              modalOverlay: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+    },
