@@ -1,0 +1,55 @@
+export const apiTranslate = (formdata) => {
+    // console.log('data get done ::', formdata);
+    return new Promise((resolve, reject) => {
+        let requestData = formdata
+        fetch("https://www.bing.com/ttranslatev3?isVertical=1&IG=79FAC2497A42473EBBBBC2E32C951464&IID=translator.5026.1", {
+            method: "POST",
+            timeout: 0,
+            headers: {
+                "content-type": "application/x-www-form-urlencoded",
+                "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36",
+                "Cookie": "MUID=1AF54EEF681C65652BA84107698764D9; SRCHD=AF=NOFORM; SRCHUID=V=2&GUID=D839A044F3834DECB838E1BDF8ADFB1E&dmnchg=1; SRCHUSR=DOB=20210224; _EDGE_S=F=1&SID=21611E13D0BD6BE62A2111FBD1266A96; _EDGE_V=1; _SS=SID=21611E13D0BD6BE62A2111FBD1266A96; btstkn=lYfpAUuH4LUTluc07Uwo7UQNlDEnZG7S0yR%252B7ZYRDPR1uCDcl9M%252FWwVfbEeridto; MUIDB=1AF54EEF681C65652BA84107698764D9"
+            },
+            body: `&fromLang=auto-detect&text=${requestData}&to=${global.lanCode||'en'}`,
+            redirect: 'follow'
+        }).then(response => response.json())
+            .then(res =>{resolve(res[0].translations[0].text);})
+            .catch(error => reject(error))
+    })
+}
+
+
+
+      apiHomeData()
+            .then(response => {
+                if (response.ResponseCode == true) {
+                    setBanner(response.data.banners)
+                    // console.log('HOME ADS DATA GET OK ::',response.data.ads.data);
+
+                    var res = response.data.ads.data;
+                    var finalData = [];
+                    Promise
+                        .all(res.map(async (item, index) => {
+                            item.ad_title = await apiTranslate(item.ad_title);
+                            // var keys=['ad_title','ad_hay','ad_tags'];
+                            // var values=Object.values(item);
+                            // console.log('VALUES::',values);
+                            // for(i=0;i<keys.length;i++){
+                            //     console.log('key::',keys[i]);
+                            //     // if()
+                            //     item[keys[i]]=await apiTranslate(`${values[i]}`);
+                            // }
+                            // console.log('FINAl ITEMS ::',item);
+                            finalData.push(item);
+                        }))
+                        .then(results => { setAds(finalData), setIsLoading(false) })
+                        .catch(err => console.error(err));
+                    // setIsLoading(false)
+                }
+            }).catch(error => {
+                // console.error(error);
+                setIsLoading(false)
+                if (IsNetInfo == true) {
+                    Alert.alert('', language.apiError)
+                }
+            })
