@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet} from 'react-native';
-import {View, TextField, Text, Button, Picker,Avatar} from 'react-native-ui-lib';
+import {View, TextField, Text, Button, Picker,Avatar,Dialog} from 'react-native-ui-lib';
 
 const App = () => {
   const [text, setText] = useState('');
@@ -62,6 +62,20 @@ const App = () => {
           />
         </View>
       </View>
+       <Dialog
+        width={'90%'}
+        height={'20%'}
+        visible={isDialog}
+        migrate
+        useSafeArea
+        overlayBackgroundColor={'rgba(52,52,52,0.5)'}
+        onDialogDismissed={() => setIsDialog(false)}>
+        <View height={'100%'} bg-dark70 style={{borderRadius: 10}}>
+          <View margin-20>
+            <Text>{'HEllo'}</Text>
+          </View>
+        </View>
+      </Dialog>
     </View>
   );
 };
