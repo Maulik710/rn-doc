@@ -1,0 +1,76 @@
+import React, {useState} from 'react';
+import {StyleSheet} from 'react-native';
+import {View, TextField, Text, Button, Picker,Avatar} from 'react-native-ui-lib';
+
+const App = () => {
+  const [text, setText] = useState('');
+  const [selectedLanguage, setSelectedLanguage] = useState('');
+  const data = [
+    {id: '1'},
+    {id: '12'},
+    {id: '13'},
+    {id: '14'},
+    {id: '15'},
+    {id: '16'},
+  ];
+  return (
+    <View flex padding={10}>
+      <Text uppercase>Helloo</Text>
+      <TextField
+        floatingPlaceholder={true}
+        placeholder={'password'}
+        underlineColor={{focus: 'black'}}
+        floatingPlaceholderColor={{focus: 'black'}}
+        value={text}
+        onChangeText={text => setText(text)}
+      />
+      <TextField
+        text70
+        floatingPlaceholder={true}
+        placeholder={'Password'}
+        underlineColor={{focus: 'black'}}
+        floatingPlaceholderColor={{focus: 'black'}}
+        value={text}
+        onChangeText={text => setText(text)}
+      />
+      <Picker
+        placeholder="Favorite Language"
+        floatingPlaceholder
+        value={selectedLanguage}
+        onChange={item => setSelectedLanguage(item.label)}>
+        {data.map((item, index) => {
+          return (
+            <Picker.Item
+              key={index}
+              label={`${item.id}`}
+              value={`${item.id}`}
+              selectedIconColor={'black'}
+            />
+          );
+        })}
+      </Picker>
+      <View style={{flexDirection: 'row'}}>
+        <Button
+          backgroundColor="#30B650"
+          label="SHUFFLE PLAY"
+          labelStyle={{fontWeight: '600'}}
+          enableShadow
+        />
+        <View>
+          <Avatar
+          
+          />
+        </View>
+      </View>
+    </View>
+  );
+};
+
+
+export default App;
+
+const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+  },
+});
