@@ -1,0 +1,161 @@
+import React from 'react';
+import {
+  TouchableWithoutFeedback,
+  StyleSheet,
+  Modal,
+  View,
+  Platform,
+  Text,
+  Button,
+  TouchableOpacity,
+  Alert,
+  FlatList,
+} from 'react-native';
+import {normalize} from './normlize';
+
+class DropDownPicker extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      // labels: this.props.lableData,
+      // setArray:this.props.array
+    };
+  }
+
+  renderPicker = ({item}) => {
+    // console.log('.............', item);
+    // item.Obj_desc
+    let lable = this.props.lable;
+    return (
+      <TouchableOpacity
+        style={{flex: 1, marginHorizontal: 10, marginVertical: 15}}
+        onPress={() => this.props.selectedValue(item)}>
+        {lable ? (
+          <Text style={{color: '#d2b040', fontSize: normalize(14)}}>
+            {eval('item.' + lable)}
+          </Text>
+        ) : (
+          <Text style={{color: '#d2b040', fontSize: normalize(14)}}>
+            {item}
+          </Text>
+        )}
+      </TouchableOpacity>
+    );
+  };
+
+  render() {
+    return (
+      <View style={styles.MainContainer}>
+        <Modal
+          visible={this.props.visible}
+          transparent={true}
+          animationType={'slide'}
+          onRequestClose={this.props.onRequestClose}>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              backgroundColor: 'rgba(0,0,0,0.5)',
+            }}>
+            <TouchableWithoutFeedback onPress={() => this.props.touchOut()}>
+              <View style={styles.modalOverlay} />
+            </TouchableWithoutFeedback>
+            <View style={styles.Alert_Main_View}>
+              <View style={{flex: 0.8}}>
+                <TouchableOpacity
+                  style={{
+                    height: 3,
+                    width: '30%',
+                    backgroundColor: '#0016a8',
+                    alignSelf: 'center',
+                    top: 10,
+                  }}
+                  onPress={() => this.props.touchOut()}
+                />
+                <FlatList
+                  style={{marginTop: 25}}
+                  data={this.props.dataArray}
+                  renderItem={this.renderPicker}
+                  keyExtractor={(item, index) => index.toString()}
+                  showsVerticalScrollIndicator={false}
+                />
+              </View>
+              <TouchableOpacity
+                style={{
+                  borderTopColor: '#0016a8',
+                  borderTopWidth: 1,
+                  flex: 0.2,
+                  width: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                onPress={() => this.props.touchOut()}>
+                <Text>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  MainContainer: {
+    position: 'absolute',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'red',
+  },
+
+  Alert_Main_View: {
+    backgroundColor: '#fff',
+    flex: 0.4,
+    width: '100%',
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+  },
+  modalOverlay: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+});
+
+export default DropDownPicker;
+
+
+ <TouchableOpacity
+                  style={{
+                    height: normalize(40),
+                    borderWidth: 0.5,
+                    borderColor: '#d2b040',
+                    justifyContent: 'center',
+                    paddingLeft: 10,
+                    borderRadius: 20,
+                  }}
+                  onPress={() => setIsComplaint(true)}>
+                  <Text
+                    style={{
+                      fontSize: normalize(14),
+                      color: '#d2b040',
+                    }}>
+                    {complaint.compDesc || complaintType[0].compDesc}
+                  </Text>
+                </TouchableOpacity>
+                <DropDownPicker
+                  visible={isComplaint}
+                  onRequestClose={() => setIsComplaint(false)}
+                  touchOut={() => setIsComplaint(false)}
+                  dataArray={complaintType}
+                  selectedValue={(item) => {
+                    setComplaint(item);
+                    subComplaintTypeSelectDrop(item);
+                    setIsComplaint(false);
+                  }}
+                  lable={'compDesc'}
+                />
